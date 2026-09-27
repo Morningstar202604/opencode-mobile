@@ -53,9 +53,19 @@ OpenCode Mobile takes the same engine and **redesigns it for the phone**:
 
 ## Screenshots
 
-| Home | Session | Settings home | Models | Test connection |
+Full app walkthrough — every screen is mobile-first at 390×844.
+
+**Chat & sessions**
+
+| Home | Session | Chat bubbles | Bottom tab bar |
+| --- | --- | --- | --- |
+| <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/home-v4.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/session-v5.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/chat-final.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/tabbar-home.png" width="150"/> |
+
+**Settings & models**
+
+| Settings home | Server page | My models | Model picker | Test connection |
 | --- | --- | --- | --- | --- |
-| <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/home-v4.png" width="140"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/session-v5.png" width="140"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v011-settings-home.png" width="140"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v012-models.png" width="140"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v013-test-conn.png" width="140"/> |
+| <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v011-settings-home.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v012-servers.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v012-models.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/model-sheet-v7.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v013-test-conn.png" width="150"/> |
 
 ## Quick start
 

@@ -29,11 +29,21 @@ OpenCode Mobile 保留完整引擎能力，**为手机重新设计了一切**：
 - 🔒 **默认隐私**——无账号、无云中转，对话从手机直达你配置的模型服务
 - ⚡ **随处可用**——整个应用自包含，后端是官方 `opencode` 二进制，在手机上本地运行
 
-## 界面预览
+## 界面预览（全部截图）
 
-| 首页 | 会话页 | 设置主页 | 模型页 | 测试连接 |
+移动端 390×844 真实视口截图。
+
+**聊天与会话**
+
+| 首页 | 会话页 | 聊天气泡 | 底部导航 |
+| --- | --- | --- | --- |
+| <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/home-v4.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/session-v5.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/chat-final.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/tabbar-home.png" width="150"/> |
+
+**设置与模型**
+
+| 设置主页 | 服务器页 | 我的模型 | 模型选择 | 测试连接 |
 | --- | --- | --- | --- | --- |
-| <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/home-v4.png" width="140"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/session-v5.png" width="140"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v011-settings-home.png" width="140"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v012-models.png" width="140"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v013-test-conn.png" width="140"/> |
+| <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v011-settings-home.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v012-servers.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v012-models.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/model-sheet-v7.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v013-test-conn.png" width="150"/> |
 
 ## 快速上手
 
