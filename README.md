@@ -1,3 +1,11 @@
+<div align="center">
+
+[**English**](README.md) · [中文](README.zh-CN.md)
+
+<p align="center">
+  <img src="docs/banner.png" alt="OpenCode Mobile" width="100%" />
+</p>
+
 # OpenCode Mobile
 
 > **Run OpenCode — the terminal AI coding agent — on your Android phone.**
@@ -15,6 +23,8 @@
 <p align="center">
   <b>Home · Session · Fully custom models · Test connection</b>
 </p>
+
+</div>
 
 ---
 
@@ -175,22 +185,9 @@ and the upstream copyright is preserved in the LICENSE file. "OpenCode" is the
 name of the upstream project; this repository is not affiliated with or endorsed
 by its maintainers.
 
+
 ---
 
-## 中文说明
+## 中文
 
-**OpenCode Mobile — 把终端里的 AI 编程智能体装进口袋。**
-
-OpenCode 是一款优秀的开源 AI 编程智能体（终端应用），但它的官方 Web 界面是为桌面设计的，且官方服务绑定了官方模型。这个项目把 OpenCode 改装成**安卓原生 App**，并做了三件关键的事：
-
-1. **界面完全重做（不参考 OpenCode 原生布局）**：参考豆包 / ChatGPT / 千问等主流 AI 应用的设计语言——消息气泡、胶囊输入框、底部三 Tab（对话 / 新建 / 我的）、全屏设置、模型选择底部弹层、添加模型「测试连接」。
-2. **官方服务全部砍掉，模型 100% 自定义**：只需填 **API 地址 + API Key + 模型 ID** 就能用（OpenAI 兼容接口均可），官方服务商与官方模型（含免费额度）全部移除，不向官方回传任何数据。
-3. **完整 agent 能力在手机本地跑**：完整的 OpenCode 引擎（会话 / 文件读写 / 执行命令）随 App 内置运行，对话直连你配置的模型服务。
-
-**快速上手**：装 APK → 底部「我的」→「模型」→「＋添加」→ 填 API 地址 / Key / 模型 ID →「测试连接」→ 绿色成功 → 保存 → 开聊。
-
-**技术栈**：Capacitor（安卓壳）+ OpenCode Web UI（SolidJS，本仓库 `web/`）+ `opencode serve`（官方二进制，进程内后端）。源码构建步骤见 [docs/BUILD.md](docs/BUILD.md)。
-
-**合规声明**：本项目是非官方社区项目，上游引擎与 Web UI 来自 [sst/opencode](https://github.com/sst/opencode)（MIT 协议，版权声明保留在 LICENSE 中），与本仓库无附属或背书关系。
-
-**路线图**：停止生成按钮、断连提示横幅、会话管理（重命名/删除）、iOS 移植（同一套壳）。
+完整中文版见 **[README.zh-CN.md](README.zh-CN.md)** — 把 OpenCode AI 编程智能体装进安卓手机，100% 自定义模型，界面按豆包 / ChatGPT 设计语言重做。
