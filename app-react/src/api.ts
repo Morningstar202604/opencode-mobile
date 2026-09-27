@@ -10,11 +10,14 @@ export interface StreamChatOptions {
   messages: ChatRequestMessage[]
   signal?: AbortSignal
   onDelta: (delta: string) => void
+  onReasoning?: (delta: string) => void
+  onToolCall?: (summary: string) => void
 }
 
 /**
  * OpenAI 兼容流式聊天（SSE）。
  * 返回完整回复文本；错误时抛出带信息的 Error。
+ * 额外解析 reasoning_content（思考过程）与 tool_calls（工具调用）。
  */
 export async function streamChat(opts: StreamChatOptions): Promise<string> {
   const base = opts.baseURL.replace(/\/+$/, "")
@@ -40,6 +43,8 @@ export async function streamChat(opts: StreamChatOptions): Promise<string> {
 
   let full = ""
   let buffer = ""
+  let toolIndex = -1
+  let toolName = ""
   const decoder = new TextDecoder()
   for (;;) {
     const { done, value } = await reader.read()
@@ -54,15 +59,44 @@ export async function streamChat(opts: StreamChatOptions): Promise<string> {
       if (payload === "[DONE]") continue
       try {
         const json = JSON.parse(payload)
-        const delta = json.choices?.[0]?.delta?.content
-        if (typeof delta === "string" && delta) {
-          full += delta
-          opts.onDelta(delta)
+        const choice = json.choices?.[0]
+        const delta = choice?.delta ?? {}
+
+        // 1) 正常文本
+        const content = delta.content
+        if (typeof content === "string" && content) {
+          full += content
+          opts.onDelta(content)
+        }
+
+        // 2) 思考过程（DeepSeek / Qwen 等 reasoning_content）
+        const reasoning = delta.reasoning_content
+        if (typeof reasoning === "string" && reasoning) {
+          opts.onReasoning?.(reasoning)
+        }
+
+        // 3) 工具调用（tool_calls 流式分片）
+        const calls = delta.tool_calls
+        if (Array.isArray(calls)) {
+          for (const call of calls) {
+            const idx = call.index ?? 0
+            if (idx !== toolIndex) {
+              if (toolIndex >= 0 && toolName) {
+                opts.onToolCall?.(toolName)
+              }
+              toolIndex = idx
+              toolName = call.function?.name ?? ""
+            }
+            if (call.function?.name) toolName = call.function.name
+          }
         }
       } catch {
         // ignore malformed keep-alive frames
       }
     }
+  }
+  if (toolIndex >= 0 && toolName) {
+    opts.onToolCall?.(toolName)
   }
   return full
 }

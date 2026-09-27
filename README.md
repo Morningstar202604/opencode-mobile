@@ -14,14 +14,14 @@
 > no official services, no official models, no vendor lock-in.
 
 <p align="center">
-  <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/chat-react.png" width="180" alt="Chat" />
-  <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/sessions-react.png" width="180" alt="Sessions" />
-  <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/models-react.png" width="180" alt="Models" />
-  <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/roles-react.png" width="180" alt="Roles" />
+  <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/chat-markdown.png" width="180" alt="Chat with Markdown" />
+  <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/sessions.png" width="180" alt="Sessions" />
+  <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/files.png" width="180" alt="Code files" />
+  <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/settings.png" width="180" alt="Settings" />
 </p>
 
 <p align="center">
-  <b>Chat · Sessions · Fully custom models · Custom roles & prompts</b>
+  <b>Chat · Sessions · Code files · Fully custom models & prompts</b>
 </p>
 
 </div>
@@ -38,7 +38,19 @@ AI apps are: message bubbles, a pill composer, a bottom tab bar, bottom sheets,
 and mobile-first ergonomics.
 
 - 🧩 **Fully rebuilt UI** — none of the original OpenCode layouts survive. Every
-  screen is re-designed for the phone: Chat, Sessions, Settings, model picker.
+  screen is re-designed for the phone: Chat, Sessions, Code files, Settings,
+  model picker.
+- ✍️ **Rich Markdown rendering** — assistant messages render headings, tables,
+  lists, quotes and **syntax-highlighted code blocks** (17 languages) with a
+  one-tap copy button.
+- 🧠 **Reasoning & tool-call visibility** — streaming `reasoning_content` shows
+  as a collapsible "Thinking" card; tool calls appear as chips, exactly like the
+  modern agents you use.
+- 📁 **Code file manager** — create, edit and delete code files right on the
+  phone (real files in the app's Documents directory), then **insert any file
+  into chat** for the model to analyze — your phone becomes the computer.
+- 🌐 **Bilingual i18n (English / 简体中文)** — switch language anytime in
+  Settings; all screens, labels and dialogs are translated.
 - 🔌 **100% custom models** — bring your own OpenAI-compatible API
   (base URL + key + model ID). The official provider is **completely removed**;
   nothing phones home.
@@ -60,13 +72,9 @@ and mobile-first ergonomics.
 
 Full app walkthrough — every screen is mobile-first at 390×844.
 
-| Chat (streaming) | Sessions | Model management | Roles & prompts |
+| Chat (Markdown + thinking + tool calls) | Sessions | Code files | Settings |
 | --- | --- | --- | --- |
-| <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/chat-react.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/sessions-react.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/models-react.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/roles-react.png" width="150"/> |
-
-| Test connection | Settings home |
-| --- | --- |
-| <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/settings-react.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v013-test-conn.png" width="150"/> |
+| <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/chat-markdown.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/sessions.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/files.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/settings.png" width="150"/> |
 
 ## Quick start
 
@@ -127,12 +135,14 @@ Full, tested steps (JDK, Android SDK, signing) are in
 │                                                      │
 │   React 19 UI (app-react/)  ── Capacitor WebView ──► │
 │   │                                                   │
-│   ├─ Chat (SSE streaming, stop)                      │
+│   ├─ Chat (SSE streaming, stop, Markdown + syntax    │
+│   │        highlighting, thinking & tool-call cards) │
 │   ├─ Sessions (local history, rename/delete/search)  │
+│   ├─ Code files (edit on-device, insert into chat)   │
 │   └─ Settings                                         │
 │        ├─ Models (base URL + key + model ID)         │
 │        ├─ Roles & prompts (custom system prompts)    │
-│        └─ General (language)                         │
+│        └─ General (language zh/en)                   │
 └───────────────┬──────────────────────────────────────┘
                 │ HTTPS + Authorization: Bearer <key>
                 ▼
@@ -151,9 +161,10 @@ Full, tested steps (JDK, Android SDK, signing) are in
 - [x] v0.1–v0.13 — mobile wrapper, patched upstream UI, custom models
 - [x] v0.14 — **full UI rebuild** (React 19): custom roles, system prompts,
       session management, stop generation, on-device storage
+- [x] v0.15 — **Markdown rendering & code highlighting**, reasoning
+      (`thinking`) & tool-call visualization, on-device **code file manager**
+      (edit + insert into chat), full zh/en i18n
 - [ ] Agent tools (file editing / shell) via a self-hosted or cloud sandbox
-- [ ] Markdown rendering & code highlighting in chat
-- [ ] i18n polish beyond zh/en
 
 ## License
 

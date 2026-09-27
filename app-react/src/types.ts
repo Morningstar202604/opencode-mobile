@@ -21,6 +21,10 @@ export interface ChatMessage {
   content: string
   createdAt: number
   error?: boolean
+  /** 思考过程（reasoning_content，如 DeepSeek 风格） */
+  reasoning?: string
+  /** 工具调用摘要列表（名称 + 参数摘要） */
+  toolCalls?: string[]
 }
 
 export interface Session {

@@ -18,9 +18,13 @@
 
 ## 为什么选择 OpenCode Mobile？
 
-[OpenCode](https://github.com/sst/opencode) 是优秀的开源 AI 编程智能体，但官方 Web 界面为桌面设计，且官方服务绑定了官方模型。OpenCode Mobile **把原来的界面全部丢掉、用新技术栈从零重写**（React 19 + Vite + Tailwind CSS 4），按主流 AI 应用的方式设计：消息气泡、胶囊输入框、底部三 Tab、底部弹层、移动优先的交互。
+[OpenCode](https://github.com/sst/opencode) 是优秀的开源 AI 编程智能体，但官方 Web 界面为桌面设计，且官方服务绑定了官方模型。OpenCode Mobile **把原来的界面全部丢掉、用新技术栈从零重写**（React 19 + Vite + Tailwind CSS 4），按主流 AI 应用的方式设计：消息气泡、胶囊输入框、底部导航、底部弹层、移动优先的交互。
 
-- 🧩 **前端彻底重构**——不再沿用任何 OpenCode 原生布局；聊天、会话、设置、模型选择全部为手机重做
+- 🧩 **前端彻底重构**——不再沿用任何 OpenCode 原生布局；聊天、会话、代码文件、设置、模型选择全部为手机重做
+- ✍️ **富 Markdown 渲染**——标题、表格、列表、引用，以及**带语法高亮的代码块**（17 种语言）一键复制
+- 🧠 **思考过程与工具调用可视化**——流式 `reasoning_content` 以可折叠「思考过程」卡片呈现；工具调用以标签 chips 展示，对标主流 Agent 应用
+- 📁 **代码文件管理器**——手机上直接新建/编辑/删除代码文件（真实文件存于应用 Documents 目录），**一键插入聊天**让模型分析——手机就是你的电脑
+- 🌐 **中英双语 i18n**——设置里随时切换语言，所有页面、标签、弹窗均已翻译
 - 🔌 **模型 100% 自定义**——只需填 **API 地址 + API Key + 模型 ID**（任意 OpenAI 兼容接口）；官方服务商与官方模型**彻底移除**，不向官方回传任何数据
 - 👤 **自定义角色与提示词**——内置程序员 / 数据分析师 / 翻译等角色，可新建任意角色预设（如「SQL 专家」）、编辑全局系统提示词、或给单个模型配置专属提示词；每次对话自动组装 system prompt 发送
 - ✅ **测试连接内置**——添加模型时先在表单里验证你的 API 端点，绿色成功 / 红色报错
@@ -33,13 +37,9 @@
 
 移动端 390×844 真实视口截图。
 
-| 聊天（流式） | 会话列表 | 模型管理 | 角色与提示词 |
+| 聊天（Markdown + 思考 + 工具调用） | 会话列表 | 代码文件 | 设置 |
 | --- | --- | --- | --- |
-| <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/chat-react.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/sessions-react.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/models-react.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/roles-react.png" width="150"/> |
-
-| 测试连接 | 设置主页 |
-| --- | --- |
-| <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/settings-react.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v013-test-conn.png" width="150"/> |
+| <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/chat-markdown.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/sessions.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/files.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/settings.png" width="150"/> |
 
 ## 快速开始
 
@@ -91,12 +91,14 @@ cd android && ./gradlew assembleRelease
 │                                                      │
 │   React 19 UI（app-react/）── Capacitor WebView ──►  │
 │   │                                                   │
-│   ├─ 聊天（SSE 流式、可停止）                         │
+│   ├─ 聊天（SSE 流式、可停止；Markdown 渲染、代码高亮、│
+│   │        思考过程与工具调用卡片）                    │
 │   ├─ 会话（本地历史，重命名/删除/搜索）               │
+│   ├─ 代码文件（手机本地编辑，一键插入聊天）           │
 │   └─ 设置                                             │
 │        ├─ 模型管理（API 地址 + Key + 模型 ID）        │
 │        ├─ 角色与提示词（自定义系统提示词）            │
-│        └─ 通用（语言）                                │
+│        └─ 通用（语言 中/英）                          │
 └───────────────┬──────────────────────────────────────┘
                 │ HTTPS + Authorization: Bearer <key>
                 ▼
@@ -112,9 +114,8 @@ cd android && ./gradlew assembleRelease
 
 - [x] v0.1–v0.13 —— 移动化封装、改造上游 UI、自定义模型
 - [x] v0.14 —— **前端全面重构**（React 19）：自定义角色、系统提示词、会话管理、停止生成、本地存储
+- [x] v0.15 —— **Markdown 渲染与代码高亮**、思考过程（thinking）与工具调用可视化、手机本地**代码文件管理器**（编辑 + 插入聊天）、中英全量 i18n
 - [ ] Agent 工具（文件读写 / 执行命令）—— 通过自建或云端沙箱
-- [ ] 聊天内 Markdown 渲染与代码高亮
-- [ ] 中英文之外的 i18n
 
 ## 开源许可
 

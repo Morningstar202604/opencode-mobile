@@ -1,7 +1,7 @@
 # Build guide (tested end-to-end)
 
 This document records the exact, tested build chain used to produce the
-v0.14.0 APKs. Environment: Linux x86_64, Node.js ≥ 20, Temurin JDK 21,
+v0.15.0 APKs. Environment: Linux x86_64, Node.js ≥ 20, Temurin JDK 21,
 Android SDK.
 
 ## Prerequisites

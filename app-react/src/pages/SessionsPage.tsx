@@ -1,26 +1,28 @@
 import { useMemo, useState } from "react"
 import type { ModelConfig, Session } from "../types"
-import { now, uid } from "../store"
+import { makeT, type Lang, type T } from "../i18n"
 
 interface SessionsPageProps {
   sessions: Session[]
   models: ModelConfig[]
-  onCreateSession: (session: Session) => void
+  lang: Lang
+  onCreateSession: () => void
   onOpenSession: (id: string) => void
   onRenameSession: (id: string, title: string) => void
   onDeleteSession: (id: string) => void
 }
 
-function groupLabel(ts: number): string {
+function groupLabel(ts: number, t: T): string {
   const d = new Date(ts)
   const today = new Date()
   const yesterday = new Date(today.getTime() - 86400000)
-  if (d.toDateString() === today.toDateString()) return "今天"
-  if (d.toDateString() === yesterday.toDateString()) return "昨天"
-  return "更早"
+  if (d.toDateString() === today.toDateString()) return t("sessions.today")
+  if (d.toDateString() === yesterday.toDateString()) return t("sessions.yesterday")
+  return t("sessions.older")
 }
 
 export default function SessionsPage(props: SessionsPageProps) {
+  const t = makeT(props.lang)
   const [query, setQuery] = useState("")
   const [renameTarget, setRenameTarget] = useState<Session | null>(null)
   const [renameValue, setRenameValue] = useState("")
@@ -32,19 +34,19 @@ export default function SessionsPage(props: SessionsPageProps) {
       .sort((a, b) => b.updatedAt - a.updatedAt)
     const map = new Map<string, Session[]>()
     for (const s of filtered) {
-      const key = groupLabel(s.updatedAt)
+      const key = groupLabel(s.updatedAt, t)
       map.set(key, [...(map.get(key) ?? []), s])
     }
     return [...map.entries()]
-  }, [props.sessions, query])
+  }, [props.sessions, query, t])
 
-  const modelName = (id: string) => props.models.find((m) => m.id === id)?.name ?? "默认模型"
+  const modelName = (id: string) => props.models.find((m) => m.id === id)?.name ?? ""
 
   return (
     <div className="flex h-full flex-col bg-white">
       {/* 顶栏 */}
       <div className="border-b border-black/5 px-4 pb-2 pt-[max(env(safe-area-inset-top),14px)]">
-        <div className="mb-3 text-[22px] font-bold text-gray-900">对话</div>
+        <div className="mb-3 text-[22px] font-bold text-gray-900">{t("sessions.title")}</div>
         <div className="flex items-center gap-2 rounded-[10px] border border-black/5 bg-[#f7f7f8] px-3 py-2 focus-within:bg-white">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="shrink-0 text-gray-400">
             <circle cx="11" cy="11" r="7" />
@@ -53,7 +55,7 @@ export default function SessionsPage(props: SessionsPageProps) {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="搜索会话"
+            placeholder={t("sessions.search")}
             className="w-full bg-transparent text-[14px] outline-none placeholder:text-gray-400"
           />
         </div>
@@ -63,9 +65,9 @@ export default function SessionsPage(props: SessionsPageProps) {
       <div className="flex-1 overflow-y-auto px-3 pb-20">
         {groups.length === 0 && (
           <div className="flex flex-col items-center gap-2 py-20 text-center">
-            <div className="text-[14px] font-medium text-gray-700">{query ? "未找到匹配的会话" : "还没有对话"}</div>
+            <div className="text-[14px] font-medium text-gray-700">{query ? t("sessions.empty.search") : t("sessions.empty.title")}</div>
             <div className="max-w-[240px] text-[13px] leading-5 text-gray-400">
-              {query ? "换个关键词试试" : "点击下方「＋」开始新的对话"}
+              {query ? t("sessions.empty.searchDesc") : t("sessions.empty.desc")}
             </div>
           </div>
         )}
@@ -84,7 +86,7 @@ export default function SessionsPage(props: SessionsPageProps) {
                 <div className="min-w-0 flex-1">
                   <div className="truncate text-[14px] font-medium text-gray-900">{s.title}</div>
                   <div className="truncate text-[11px] text-gray-400">
-                    {modelName(s.modelId)} · {s.messages.length} 条消息
+                    {modelName(s.modelId)} · {s.messages.length} {t("sessions.messages")}
                   </div>
                 </div>
                 <div className="flex shrink-0 items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100 group-active:opacity-100">
@@ -122,7 +124,7 @@ export default function SessionsPage(props: SessionsPageProps) {
 
       {/* 重命名对话框 */}
       {renameTarget && (
-        <ModalShell title="重命名会话" onClose={() => setRenameTarget(null)}>
+        <ModalShell title={t("sessions.rename")} onClose={() => setRenameTarget(null)}>
           <input
             autoFocus
             value={renameValue}
@@ -133,7 +135,7 @@ export default function SessionsPage(props: SessionsPageProps) {
                 setRenameTarget(null)
               }
             }}
-            placeholder="输入新标题"
+            placeholder={t("sessions.rename.placeholder")}
             className="w-full rounded-[10px] border border-black/10 bg-white px-3 py-2.5 text-[14px] outline-none focus:border-black/30"
           />
           <div className="mt-4 flex justify-end gap-2">
@@ -141,7 +143,7 @@ export default function SessionsPage(props: SessionsPageProps) {
               onClick={() => setRenameTarget(null)}
               className="rounded-full px-4 py-2 text-[13px] font-medium text-gray-600 active:bg-black/5"
             >
-              取消
+              {t("common.cancel")}
             </button>
             <button
               onClick={() => {
@@ -152,7 +154,7 @@ export default function SessionsPage(props: SessionsPageProps) {
               }}
               className="rounded-full bg-black px-4 py-2 text-[13px] font-medium text-white active:opacity-80"
             >
-              保存
+              {t("common.save")}
             </button>
           </div>
         </ModalShell>
@@ -160,16 +162,16 @@ export default function SessionsPage(props: SessionsPageProps) {
 
       {/* 删除确认对话框 */}
       {deleteTarget && (
-        <ModalShell title="删除会话" onClose={() => setDeleteTarget(null)}>
+        <ModalShell title={t("sessions.delete")} onClose={() => setDeleteTarget(null)}>
           <p className="text-[13px] leading-5 text-gray-500">
-            删除「{deleteTarget.title}」后不可恢复，确认删除？
+            {t("sessions.delete.confirm", { title: deleteTarget.title })}
           </p>
           <div className="mt-4 flex justify-end gap-2">
             <button
               onClick={() => setDeleteTarget(null)}
               className="rounded-full px-4 py-2 text-[13px] font-medium text-gray-600 active:bg-black/5"
             >
-              取消
+              {t("common.cancel")}
             </button>
             <button
               onClick={() => {
@@ -178,7 +180,7 @@ export default function SessionsPage(props: SessionsPageProps) {
               }}
               className="rounded-full bg-red-500 px-4 py-2 text-[13px] font-medium text-white active:opacity-80"
             >
-              删除
+              {t("common.delete")}
             </button>
           </div>
         </ModalShell>

@@ -5,6 +5,36 @@ All notable changes to **OpenCode Mobile** are documented here.
 The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to semantic versioning.
 
+## [0.15.0] — 2026-09-28
+
+### Added
+- **Rich Markdown rendering** — assistant messages now render headings, tables,
+  lists, blockquotes and **syntax-highlighted code blocks** (17 languages via
+  highlight.js, hand-registered core builds) with a one-tap copy button.
+- **Reasoning & tool-call visualization** — streaming `reasoning_content` is
+  shown as a collapsible "Thinking" card; streaming `tool_calls` are aggregated
+  and shown as cyan chips. Both persist with the message.
+- **Code file manager** — new **Code** tab: create / edit / delete code files.
+  On device, files live in the app Documents directory (`@capacitor/filesystem`,
+  `.ocm` extension); in browser preview they fall back to localStorage. Any file
+  can be **inserted into chat** — a new session opens with the file name and
+  content pre-filled in the composer for the model to analyze.
+- **Full zh/en i18n** — all screens (Chat, Sessions, Code files, Settings),
+  labels and dialogs are translated; language switch under Settings → General.
+  `i18n.ts` provides typed dictionaries with `{var}` interpolation.
+- Streaming accumulation fix — content, reasoning and tool calls are now
+  accumulated through the stream instead of per-frame snapshot patches.
+- Strict TypeScript check (`tsc --noEmit`) wired into `npm run build`; a
+  `tsconfig.json` was added to the React app.
+
+### Verified
+- Playwright 390×844 regression (18/18): bottom 4-tab nav ✓, add model +
+  save ✓, code file create/edit/save ✓, insert-into-chat pre-fills composer ✓,
+  streaming thinking card + tool-call chips + Markdown (code block, table,
+  blockquote) ✓, session back-navigation ✓, English i18n switch ✓.
+- `@capacitor/filesystem` synced into the Android project; release APK signed
+  with the same keystore as v0.14 (DN/SHA-256 unchanged → in-place upgrade OK).
+
 ## [0.14.0] — 2026-09-27
 
 ### Changed (breaking)

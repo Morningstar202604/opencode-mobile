@@ -2,11 +2,13 @@ import { useState } from "react"
 import { testConnection } from "../api"
 import type { ModelConfig, Role, Settings } from "../types"
 import { now, uid } from "../store"
+import { makeT, TContext, useT, type Lang } from "../i18n"
 
 interface SettingsPageProps {
   models: ModelConfig[]
   roles: Role[]
   settings: Settings
+  lang: Lang
   onSaveModels: (models: ModelConfig[]) => void
   onSaveRoles: (roles: Role[]) => void
   onSaveSettings: (settings: Settings) => void
@@ -17,50 +19,54 @@ type Tab = "models" | "roles" | "general"
 export default function SettingsPage(props: SettingsPageProps) {
   const [tab, setTab] = useState<Tab>("models")
   const [showAdd, setShowAdd] = useState(false)
+  const t = makeT(props.lang)
 
   return (
-    <div className="flex h-full flex-col bg-white">
-      <div className="border-b border-black/5 px-4 pb-2 pt-[max(env(safe-area-inset-top),14px)]">
-        <div className="mb-3 text-[22px] font-bold text-gray-900">我的</div>
-        <div className="flex gap-1.5">
-          {(
-            [
-              ["models", "模型管理"],
-              ["roles", "角色与提示词"],
-              ["general", "通用"],
-            ] as [Tab, string][]
-          ).map(([key, label]) => (
-            <button
-              key={key}
-              onClick={() => setTab(key)}
-              className={`rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
-                tab === key ? "bg-black text-white" : "bg-black/5 text-gray-600 active:bg-black/10"
-              }`}
-            >
-              {label}
-            </button>
-          ))}
+    <TContext.Provider value={t}>
+      <div className="flex h-full flex-col bg-white">
+        <div className="border-b border-black/5 px-4 pb-2 pt-[max(env(safe-area-inset-top),14px)]">
+          <div className="mb-3 text-[22px] font-bold text-gray-900">{t("settings.title")}</div>
+          <div className="flex gap-1.5">
+            {(
+              [
+                ["models", t("settings.models")],
+                ["roles", t("settings.roles")],
+                ["general", t("settings.general")],
+              ] as [Tab, string][]
+            ).map(([key, label]) => (
+              <button
+                key={key}
+                onClick={() => setTab(key)}
+                className={`rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
+                  tab === key ? "bg-black text-white" : "bg-black/5 text-gray-600 active:bg-black/10"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex-1 overflow-y-auto px-4 pb-24">
+          {tab === "models" && <ModelsTab {...props} showAdd={showAdd} onShowAdd={() => setShowAdd(true)} />}
+          {tab === "roles" && <RolesTab {...props} />}
+          {tab === "general" && <GeneralTab {...props} />}
         </div>
       </div>
-
-      <div className="flex-1 overflow-y-auto px-4 pb-24">
-        {tab === "models" && <ModelsTab {...props} showAdd={showAdd} onShowAdd={() => setShowAdd(true)} />}
-        {tab === "roles" && <RolesTab {...props} />}
-        {tab === "general" && <GeneralTab {...props} />}
-      </div>
-    </div>
+    </TContext.Provider>
   )
 }
 
 /* ============ 模型管理 ============ */
 
 function ModelsTab(props: SettingsPageProps & { showAdd: boolean; onShowAdd: () => void }) {
+  const t = useT()
   return (
     <div>
       {props.models.length === 0 && (
         <div className="rounded-xl border border-dashed border-black/15 px-4 py-8 text-center">
-          <div className="text-[14px] font-medium text-gray-700">还没有配置模型</div>
-          <div className="mt-1 text-[12px] leading-5 text-gray-400">添加你的 API 模型（任意 OpenAI 兼容服务），即可开始对话</div>
+          <div className="text-[14px] font-medium text-gray-700">{t("settings.noModels.title")}</div>
+          <div className="mt-1 text-[12px] leading-5 text-gray-400">{t("settings.noModels.desc")}</div>
         </div>
       )}
       <div className="mt-3 flex flex-col gap-2">
@@ -85,7 +91,7 @@ function ModelsTab(props: SettingsPageProps & { showAdd: boolean; onShowAdd: () 
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
             <path d="M12 5v14M5 12h14" />
           </svg>
-          添加模型
+          {t("settings.addModel")}
         </button>
       )}
     </div>
@@ -93,6 +99,7 @@ function ModelsTab(props: SettingsPageProps & { showAdd: boolean; onShowAdd: () 
 }
 
 function ModelRow(props: { model: ModelConfig } & SettingsPageProps) {
+  const t = useT()
   const { model } = props
   const isDefault = props.settings.defaultModelId === model.id
   const [testing, setTesting] = useState(false)
@@ -117,7 +124,7 @@ function ModelRow(props: { model: ModelConfig } & SettingsPageProps) {
           <div className="flex items-center gap-2">
             <span className="truncate text-[14px] font-semibold text-gray-900">{model.name}</span>
             {isDefault && (
-              <span className="shrink-0 rounded-full bg-black px-2 py-0.5 text-[10px] font-medium text-white">默认</span>
+              <span className="shrink-0 rounded-full bg-black px-2 py-0.5 text-[10px] font-medium text-white">{t("settings.model.default")}</span>
             )}
           </div>
           <div className="mt-0.5 truncate text-[12px] text-gray-400">{model.modelId}</div>
@@ -137,7 +144,7 @@ function ModelRow(props: { model: ModelConfig } & SettingsPageProps) {
             onClick={() => props.onSaveSettings({ ...props.settings, defaultModelId: model.id })}
             className="rounded-full bg-black/5 px-3 py-1.5 text-[12px] font-medium text-gray-700 active:bg-black/10"
           >
-            设为默认
+            {t("settings.model.setDefault")}
           </button>
         )}
         <button
@@ -145,7 +152,7 @@ function ModelRow(props: { model: ModelConfig } & SettingsPageProps) {
           disabled={testing}
           className="rounded-full bg-black/5 px-3 py-1.5 text-[12px] font-medium text-gray-700 active:bg-black/10 disabled:opacity-50"
         >
-          {testing ? "测试中…" : "测试连接"}
+          {testing ? t("settings.model.testing") : t("settings.model.test")}
         </button>
         <div className="flex-1" />
         {confirmDelete ? (
@@ -160,13 +167,13 @@ function ModelRow(props: { model: ModelConfig } & SettingsPageProps) {
               }}
               className="rounded-full bg-red-500 px-3 py-1.5 text-[12px] font-medium text-white active:opacity-80"
             >
-              确认删除
+              {t("common.confirmDelete")}
             </button>
             <button
               onClick={() => setConfirmDelete(false)}
               className="rounded-full bg-black/5 px-3 py-1.5 text-[12px] font-medium text-gray-600 active:bg-black/10"
             >
-              取消
+              {t("common.cancel")}
             </button>
           </>
         ) : (
@@ -174,7 +181,7 @@ function ModelRow(props: { model: ModelConfig } & SettingsPageProps) {
             onClick={() => setConfirmDelete(true)}
             className="rounded-full px-3 py-1.5 text-[12px] font-medium text-red-500 active:bg-red-50"
           >
-            删除
+            {t("settings.model.delete")}
           </button>
         )}
       </div>
@@ -183,6 +190,7 @@ function ModelRow(props: { model: ModelConfig } & SettingsPageProps) {
 }
 
 function AddModelForm(props: { onDone: (m: ModelConfig) => void; onCancel: () => void }) {
+  const t = useT()
   const [form, setForm] = useState({ name: "", baseURL: "", apiKey: "", modelId: "", systemPrompt: "" })
   const [testing, setTesting] = useState(false)
   const [result, setResult] = useState<string | null>(null)
@@ -212,24 +220,24 @@ function AddModelForm(props: { onDone: (m: ModelConfig) => void; onCancel: () =>
 
   return (
     <div className="mt-4 rounded-xl border border-black/10 bg-white p-4">
-      <div className="mb-3 text-[14px] font-semibold text-gray-900">添加模型</div>
-      <Field label="显示名称">
-        <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="例如：我的模型" className={inputCls} />
+      <div className="mb-3 text-[14px] font-semibold text-gray-900">{t("settings.addModel")}</div>
+      <Field label={t("settings.model.name")}>
+        <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="GPT-4o mini" className={inputCls} />
       </Field>
-      <Field label="API 地址（baseURL）">
+      <Field label={t("settings.model.baseURL")}>
         <input value={form.baseURL} onChange={(e) => setForm({ ...form, baseURL: e.target.value })} placeholder="https://api.example.com/v1" className={inputCls} />
       </Field>
-      <Field label="API Key">
+      <Field label={t("settings.model.apiKey")}>
         <input value={form.apiKey} type="password" onChange={(e) => setForm({ ...form, apiKey: e.target.value })} placeholder="sk-..." className={inputCls} />
       </Field>
-      <Field label="模型 ID">
-        <input value={form.modelId} onChange={(e) => setForm({ ...form, modelId: e.target.value })} placeholder="例如：gpt-4o-mini / deepseek-chat" className={inputCls} />
+      <Field label={t("settings.model.modelId")}>
+        <input value={form.modelId} onChange={(e) => setForm({ ...form, modelId: e.target.value })} placeholder="gpt-4o-mini / deepseek-chat" className={inputCls} />
       </Field>
-      <Field label="模型系统提示词（可选）">
+      <Field label={t("settings.model.systemPrompt")}>
         <textarea
           value={form.systemPrompt}
           onChange={(e) => setForm({ ...form, systemPrompt: e.target.value })}
-          placeholder="该模型专用的系统提示词，留空则用全局/角色提示词"
+          placeholder={t("settings.model.systemPrompt.ph")}
           rows={3}
           className={inputCls}
         />
@@ -247,18 +255,18 @@ function AddModelForm(props: { onDone: (m: ModelConfig) => void; onCancel: () =>
           disabled={!canTest || testing}
           className="rounded-full bg-black/5 px-4 py-2 text-[13px] font-medium text-gray-700 active:bg-black/10 disabled:opacity-40"
         >
-          {testing ? "测试中…" : "测试连接"}
+          {testing ? t("settings.model.testing") : t("settings.model.test")}
         </button>
         <div className="flex-1" />
         <button onClick={props.onCancel} className="rounded-full px-4 py-2 text-[13px] font-medium text-gray-600 active:bg-black/5">
-          取消
+          {t("common.cancel")}
         </button>
         <button
           onClick={submit}
           disabled={!canSave}
           className="rounded-full bg-black px-4 py-2 text-[13px] font-medium text-white active:opacity-80 disabled:opacity-30"
         >
-          保存
+          {t("common.save")}
         </button>
       </div>
     </div>
@@ -268,6 +276,7 @@ function AddModelForm(props: { onDone: (m: ModelConfig) => void; onCancel: () =>
 /* ============ 角色与提示词 ============ */
 
 function RolesTab(props: SettingsPageProps) {
+  const t = useT()
   const [editing, setEditing] = useState<Role | null>(null)
   const [creating, setCreating] = useState(false)
   const [prompt, setPrompt] = useState("")
@@ -278,18 +287,18 @@ function RolesTab(props: SettingsPageProps) {
   return (
     <div>
       <div className="rounded-xl border border-black/8 bg-white p-4">
-        <div className="text-[14px] font-semibold text-gray-900">全局提示词（system prompt）</div>
+        <div className="text-[14px] font-semibold text-gray-900">{t("settings.globalPrompt")}</div>
         <textarea
           value={props.settings.globalPrompt ?? ""}
           onChange={(e) => props.onSaveSettings({ ...props.settings, globalPrompt: e.target.value })}
-          placeholder="始终附加到每次对话的系统提示词，例如：请用中文回答，回答简洁。"
+          placeholder={t("settings.globalPrompt.ph")}
           rows={3}
           className={`${inputCls} mt-2`}
         />
       </div>
 
       <div className="mb-2 mt-5 flex items-center justify-between">
-        <div className="text-[14px] font-semibold text-gray-900">角色预设</div>
+        <div className="text-[14px] font-semibold text-gray-900">{t("settings.roles.title")}</div>
         <button
           onClick={() => {
             setName("")
@@ -301,13 +310,13 @@ function RolesTab(props: SettingsPageProps) {
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <path d="M12 5v14M5 12h14" />
           </svg>
-          新建角色
+          {t("settings.roles.new")}
         </button>
       </div>
 
       {activeRole && (
         <div className="mb-3 rounded-lg bg-emerald-50 px-3 py-2 text-[12px] text-emerald-700">
-          当前启用角色：「{activeRole.name}」
+          {t("settings.roles.active", { name: activeRole.name })}
         </div>
       )}
 
@@ -365,15 +374,17 @@ function RolesTab(props: SettingsPageProps) {
 
       {(creating || editing) && (
         <div className="mt-4 rounded-xl border border-black/10 bg-white p-4">
-          <div className="mb-3 text-[14px] font-semibold text-gray-900">{editing ? "编辑角色" : "新建角色"}</div>
-          <Field label="角色名称">
-            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="例如：产品经理" className={inputCls} />
+          <div className="mb-3 text-[14px] font-semibold text-gray-900">
+            {editing ? t("settings.roles.edit") : t("settings.roles.create")}
+          </div>
+          <Field label={t("settings.roles.name")}>
+            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Product Manager" className={inputCls} />
           </Field>
-          <Field label="角色提示词">
+          <Field label={t("settings.roles.prompt")}>
             <textarea
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              placeholder="描述该角色的身份、职责和回答风格…"
+              placeholder={t("settings.roles.prompt.ph")}
               rows={4}
               className={inputCls}
             />
@@ -386,7 +397,7 @@ function RolesTab(props: SettingsPageProps) {
               }}
               className="rounded-full px-4 py-2 text-[13px] font-medium text-gray-600 active:bg-black/5"
             >
-              取消
+              {t("common.cancel")}
             </button>
             <button
               onClick={() => {
@@ -402,7 +413,7 @@ function RolesTab(props: SettingsPageProps) {
               }}
               className="rounded-full bg-black px-4 py-2 text-[13px] font-medium text-white active:opacity-80"
             >
-              保存
+              {t("common.save")}
             </button>
           </div>
         </div>
@@ -414,10 +425,11 @@ function RolesTab(props: SettingsPageProps) {
 /* ============ 通用 ============ */
 
 function GeneralTab(props: SettingsPageProps) {
+  const t = useT()
   return (
     <div className="flex flex-col gap-2">
       <div className="rounded-xl border border-black/8 bg-white p-4">
-        <div className="text-[14px] font-semibold text-gray-900">语言</div>
+        <div className="text-[14px] font-semibold text-gray-900">{t("settings.general.lang")}</div>
         <div className="mt-2 flex gap-1.5">
           {(
             [
@@ -439,11 +451,11 @@ function GeneralTab(props: SettingsPageProps) {
       </div>
 
       <div className="rounded-xl border border-black/8 bg-white p-4">
-        <div className="text-[14px] font-semibold text-gray-900">关于</div>
+        <div className="text-[14px] font-semibold text-gray-900">{t("settings.general.about")}</div>
         <div className="mt-2 space-y-1 text-[12px] leading-5 text-gray-500">
-          <div>OpenCode Mobile v0.14</div>
-          <div>纯自定义模型 · 数据保存在本机</div>
-          <div>对话内容不会上传到官方服务</div>
+          <div>OpenCode Mobile v0.15</div>
+          <div>{t("settings.general.about1")}</div>
+          <div>{t("settings.general.about2")}</div>
         </div>
       </div>
     </div>
