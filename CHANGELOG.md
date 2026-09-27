@@ -5,13 +5,34 @@ All notable changes to **OpenCode Mobile** are documented here.
 The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to semantic versioning.
 
-## [Unreleased]
+## [0.14.0] — 2026-09-27
 
-### Planned
-- Stop-generation button on the session page (backend `POST /session/{id}/abort` exists)
-- Connection-status banner when the backend is unreachable
-- Session management (rename / delete / history) in a mobile-first sheet
-- Model test-connection for non-OpenAI-compatible endpoints
+### Changed (breaking)
+- **Complete UI rebuild** — the front end is no longer the patched upstream
+  SolidJS UI. It is now a **self-contained React 19 + Vite + Tailwind CSS 4**
+  app (`app-react/`) designed like mainstream AI apps (ChatGPT / Doubao / Qwen /
+  Codex): message bubbles, pill composer, bottom tab bar (Chat / ＋ / Me),
+  bottom sheets. The original OpenCode layouts are gone.
+- **No local backend** — the app talks **directly to your model API** over SSE
+  streaming (`chat/completions`). The `opencode` binary / local server is no
+  longer involved; the app runs anywhere on the phone.
+- Repo trimmed: the upstream `web/` snapshot was removed (not needed anymore).
+
+### Added
+- **Custom roles & system prompts** — built-in roles (General / Coder / Analyst /
+  Writer / Translator), create/delete custom roles, per-model system prompt,
+  global system prompt; all assembled and sent as `system` in every request.
+- **Session management** — grouped history (Today / Yesterday / Older), search,
+  rename, delete (with confirm); conversations stored on-device.
+- **Stop generation** — client-side abort of the SSE stream.
+- **Add model** — display name, base URL, API key, model ID, test connection,
+  set as default; multiple models with a bottom-sheet picker.
+- Signed release keystore rebuilt (same DN as v0.13).
+
+### Verified
+- Playwright 390×844: add model → test connection (Agnes AI, agnes-2.5-flash)
+  ✓ → chat streaming ✓ → custom role "数字人" (only digits) → reply `2` for
+  `1+1` ✓ → sessions list / rename ✓.
 
 ## [0.13.0] — 2026-09-27
 

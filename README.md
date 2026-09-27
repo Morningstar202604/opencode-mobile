@@ -9,19 +9,19 @@
 # OpenCode Mobile
 
 > **Run OpenCode — the terminal AI coding agent — on your Android phone.**
-> A mobile-native wrapper with a completely custom, mainstream-AI-style UI
-> (think ChatGPT / Doubao / Qwen app), 100% BYO-model: **no official services,
-> no official models, no vendor lock-in.**
+> A mobile-native AI assistant with a **completely rebuilt UI** (React 19,
+> designed like ChatGPT / Doubao / Qwen / Codex) and **100% BYO-model**:
+> no official services, no official models, no vendor lock-in.
 
 <p align="center">
-  <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/home-v4.png" width="180" alt="Home" />
-  <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/session-v5.png" width="180" alt="Session" />
-  <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v012-models.png" width="180" alt="Models" />
-  <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v013-test-conn.png" width="180" alt="Test connection" />
+  <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/chat-react.png" width="180" alt="Chat" />
+  <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/sessions-react.png" width="180" alt="Sessions" />
+  <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/models-react.png" width="180" alt="Models" />
+  <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/roles-react.png" width="180" alt="Roles" />
 </p>
 
 <p align="center">
-  <b>Home · Session · Fully custom models · Test connection</b>
+  <b>Chat · Sessions · Fully custom models · Custom roles & prompts</b>
 </p>
 
 </div>
@@ -30,42 +30,43 @@
 
 ## Why OpenCode Mobile?
 
-[OpenCode](https://github.com/sst/opencode) is a brilliant open-source coding
-agent that runs in your terminal. But the web UI was built for desktop, and the
-official service tied you to their models.
+OpenCode is a brilliant open-source coding agent — but its web UI was built for
+desktop, and the official service tied you to their models. OpenCode Mobile
+**throws away the original layout and rebuilds the front end from scratch** with
+a modern stack (React 19 + Vite + Tailwind CSS 4), designed the way mainstream
+AI apps are: message bubbles, a pill composer, a bottom tab bar, bottom sheets,
+and mobile-first ergonomics.
 
-OpenCode Mobile takes the same engine and **redesigns it for the phone**:
-
-- 📱 **Mobile-first UI** — rebuilt around how mainstream AI apps look and feel:
-  message bubbles, a pill composer, a bottom tab bar (Chat / New / Me), full-screen
-  settings, bottom sheets for model picking.
+- 🧩 **Fully rebuilt UI** — none of the original OpenCode layouts survive. Every
+  screen is re-designed for the phone: Chat, Sessions, Settings, model picker.
 - 🔌 **100% custom models** — bring your own OpenAI-compatible API
-  (base URL + key + model ID). The official provider and its free tier are
-  **completely removed**; nothing phones home.
-- ✅ **Test connection built in** — verify your API endpoint right in the add-model
+  (base URL + key + model ID). The official provider is **completely removed**;
+  nothing phones home.
+- 👤 **Custom roles & system prompts** — create role presets (coder, analyst,
+  translator, SQL expert, anything), edit the global system prompt, or give a
+  model its own prompt. The final system prompt is assembled and sent with
+  every message.
+- ✅ **Test connection built in** — verify any endpoint right in the add-model
   form before saving.
-- 🤖 **Real agent capabilities** — the full OpenCode engine runs on your device:
-  chat, file edits, shell commands, agent workflows — powered by *your* model.
+- 🗂️ **Local session management** — grouped history (Today / Yesterday / Older),
+  rename, delete, search; conversations are stored on-device.
+- ⏹️ **Stop generation** — interrupt a stream at any time (client-side abort).
 - 🔒 **Private by default** — no account, no cloud relay; your conversations go
   straight from the phone to the API provider you configured.
-- ⚡ **Runs anywhere** — the whole thing is self-contained; the backend is the
-  official `opencode` binary running locally on the phone.
+- ⚡ **No backend required** — the app talks directly to your model API over
+  SSE streaming. It runs anywhere, no local server needed.
 
 ## Screenshots
 
 Full app walkthrough — every screen is mobile-first at 390×844.
 
-**Chat & sessions**
-
-| Home | Session | Chat bubbles | Bottom tab bar |
+| Chat (streaming) | Sessions | Model management | Roles & prompts |
 | --- | --- | --- | --- |
-| <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/home-v4.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/session-v5.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/chat-final.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/tabbar-home.png" width="150"/> |
+| <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/chat-react.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/sessions-react.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/models-react.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/roles-react.png" width="150"/> |
 
-**Settings & models**
-
-| Settings home | Server page | My models | Model picker | Test connection |
-| --- | --- | --- | --- | --- |
-| <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v011-settings-home.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v012-servers.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v012-models.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/model-sheet-v7.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v013-test-conn.png" width="150"/> |
+| Test connection | Settings home |
+| --- | --- |
+| <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/settings-react.png" width="150"/> | <img src="https://cdn.jsdelivr.net/gh/X33834/opencode-mobile@main/docs/screenshots/v013-test-conn.png" width="150"/> |
 
 ## Quick start
 
@@ -81,30 +82,34 @@ Mirrors: [Gitee](https://gitee.com/badhope/opencode-mobile) ·
 ### First run
 
 1. Open the app → bottom **Me** tab → **Models**.
-2. Tap **＋ Add** and fill in:
+2. Tap **Add model** and fill in:
    - **Display name** — e.g. `GPT-4o mini`
    - **API base URL** — e.g. `https://api.openai.com/v1`
    - **API key** — your key (stays on-device)
    - **Model ID** — e.g. `gpt-4o-mini`
 3. Tap **Test connection** — you should see a green `✓ 连接成功`.
-4. Tap **Save**, then start chatting. The agent can edit files and run commands
-   in its working directory — all through your own model.
+4. Tap **Save** (it becomes your default model), then tap **＋** to start a chat.
+5. Optional: in **Me → Roles & prompts**, create role presets or a global
+   system prompt to shape how your model answers.
 
 > Works with any OpenAI-compatible endpoint. Verified with Agnes AI
-> (`https://apihub.agnes-ai.com/v1`, `agnes-2.5-flash`), OpenAI, and local
-> OpenAI-compatible servers.
+> (`https://apihub.agnes-ai.com/v1`, `agnes-2.5-flash`), OpenAI-compatible
+> providers, and local OpenAI-compatible servers.
 
 ## Build from source
 
-```bash
-# 1) Frontend (Web UI) — needs the upstream monorepo, see docs/BUILD.md
-cd opencode          # sst/opencode checkout
-# apply the web/ sources from this repo (web/packages/app, ui, sdk)
-cd packages/app && bun install && bun run build   # → dist/
+The Android app is a plain Capacitor shell around a self-contained React app —
+**no upstream monorepo needed**.
 
-# 2) Android app — this repo
-cp -r packages/app/dist /path/to/opencode-mobile/dist
-cd /path/to/opencode-mobile
+```bash
+# 1) Frontend (React 19 + Vite + Tailwind) — app-react/
+cd app-react
+npm install
+npm run build          # → app-react/dist/
+
+# 2) Android app — this repo root
+cd ..
+rm -rf dist && cp -r app-react/dist dist
 npm i
 npx cap sync android
 cd android && ./gradlew assembleRelease
@@ -117,87 +122,45 @@ Full, tested steps (JDK, Android SDK, signing) are in
 ## How it works
 
 ```
-┌───────────────────────────────────────────────┐
-│  Android app (this repo)                      │
-│  ┌──────────────┐   ┌──────────────────────┐  │
-│  │ Capacitor    │   │ OpenCode Web UI      │  │
-│  │ (WebView)    │──▶│ (SolidJS, mobile-    │  │
-│  │              │   │  first, this repo)   │  │
-│  └──────────────┘   └──────────┬───────────┘  │
-│                                │ localhost    │
-│  ┌─────────────────────────────▼───────────┐  │
-│  │ opencode serve (official binary, in-    │  │
-│  │ process backend: sessions, tools, files)│  │
-│  └─────────────────────────────┬───────────┘  │
-└────────────────────────────────┼─────────────┘
-                                 │ HTTPS (your own API key)
-                        ┌────────▼────────┐
-                        │ Your model API  │
-                        │ (OpenAI-compatible) │
-                        └─────────────────┘
+┌──────────────────────────────────────────────────────┐
+│                  OpenCode Mobile (Android)           │
+│                                                      │
+│   React 19 UI (app-react/)  ── Capacitor WebView ──► │
+│   │                                                   │
+│   ├─ Chat (SSE streaming, stop)                      │
+│   ├─ Sessions (local history, rename/delete/search)  │
+│   └─ Settings                                         │
+│        ├─ Models (base URL + key + model ID)         │
+│        ├─ Roles & prompts (custom system prompts)    │
+│        └─ General (language)                         │
+└───────────────┬──────────────────────────────────────┘
+                │ HTTPS + Authorization: Bearer <key>
+                ▼
+       Your OpenAI-compatible API
+   (ChatGPT / Claude via gateway / DeepSeek /
+    Qwen / Agnes / any provider you choose)
 ```
 
-The app **never** talks to OpenCode's official service. The backend binary is
-the same one you would run in a terminal — it just runs on your phone.
-
-## Design principles
-
-- **Mainstream-AI UX first.** We did *not* keep OpenCode's desktop layout.
-  Navigation, composer, model picker and settings were re-designed to match the
-  mental model of ChatGPT / Doubao / Qwen apps on mobile.
-- **Function first, then flair.** Every UI change is regression-tested against
-  the real backend (`tools/reg-*.cjs` + Playwright at 390×844).
-- **You own your models.** No curated provider list, no sponsored defaults —
-  only what you configure.
-
-## Repository layout
-
-```
-opencode-mobile/
-├── android/            # Capacitor Android project (buildable)
-├── web/                # Frontend sources (packages/app · ui · sdk)
-├── tools/              # Dev tools (local static server, regression scripts)
-├── docs/
-│   ├── BUILD.md        # End-to-end build guide (tested)
-│   ├── ARCHITECTURE.md # Architecture & data flow
-│   └── screenshots/    # UI screenshots
-├── CHANGELOG.md
-├── LICENSE             # MIT (upstream + this project)
-└── README.md
-```
+- Conversations are stored locally (`localStorage`) on the device.
+- Every message stream is a standard OpenAI `chat/completions` SSE request
+  straight from the phone to your provider.
+- No official OpenCode account, no cloud relay, no telemetry.
 
 ## Roadmap
 
-- [x] v0.13 — test connection, Agnes AI verified, crash fixes
-- [x] v0.12 — fully custom models, server card UI, general page cards
-- [x] v0.11 — settings home (Doubao-style)
-- [x] v0.10 — home quick prompt, full-screen settings
-- [x] v0.9 — session top bar, dark mode
-- [x] v0.8 — bottom tab bar
-- [x] v0.7 — official providers removed, model bottom sheet
-- [x] v0.1–v0.6 — Android shell, chat UI, home page, details
-- [ ] Stop-generation button
-- [ ] Connection-status banner
-- [ ] Session management (rename/delete)
-- [ ] iOS port (same Capacitor shell)
+- [x] v0.1–v0.13 — mobile wrapper, patched upstream UI, custom models
+- [x] v0.14 — **full UI rebuild** (React 19): custom roles, system prompts,
+      session management, stop generation, on-device storage
+- [ ] Agent tools (file editing / shell) via a self-hosted or cloud sandbox
+- [ ] Markdown rendering & code highlighting in chat
+- [ ] i18n polish beyond zh/en
 
-## Contributing
+## License
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports, UI feedback, and model
-compatibility reports are all welcome.
+MIT — see [LICENSE](LICENSE). Both the original OpenCode project
+([sst/opencode](https://github.com/sst/opencode), MIT) and this mobile
+rebuild are MIT-licensed.
 
-## License & attribution
+## Contributing & Security
 
-[MIT](LICENSE). This project is an **unofficial, community-built** Android
-client. The upstream engine and Web UI are
-[OpenCode](https://github.com/sst/opencode) (MIT, © 2025 opencode contributors),
-and the upstream copyright is preserved in the LICENSE file. "OpenCode" is the
-name of the upstream project; this repository is not affiliated with or endorsed
-by its maintainers.
-
-
----
-
-## 中文
-
-完整中文版见 **[README.zh-CN.md](README.zh-CN.md)** — 把 OpenCode AI 编程智能体装进安卓手机，100% 自定义模型，界面按豆包 / ChatGPT 设计语言重做。
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).

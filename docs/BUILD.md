@@ -1,54 +1,35 @@
 # Build guide (tested end-to-end)
 
 This document records the exact, tested build chain used to produce the
-v0.13.0 APKs. Environment: Linux x86_64, Bun 1.3.14 (baseline build),
-Temurin JDK 21, Android SDK.
+v0.14.0 APKs. Environment: Linux x86_64, Node.js ≥ 20, Temurin JDK 21,
+Android SDK.
 
 ## Prerequisites
 
 | Tool | Version / note |
 | --- | --- |
-| Node.js | ≥ 20 (for Capacitor CLI) |
-| Bun | **1.3.14** (`curl -fsSL https://bun.sh/install | bash`) |
+| Node.js | ≥ 20 (for Vite + Capacitor CLI) |
+| npm | 10+ (bundled with Node) |
 | JDK | **21** (Temurin: `https://adoptium.net`) |
 | Android SDK | `platform-tools`, `platforms;android-35`, `build-tools;35.0.0` |
 | Gradle | 8.x (wrapper included in `android/`) |
 
-> Bun tip: use the **baseline** build on older x86-64 CPUs
-> (`bun upgrade --canary`? no — install with
-> `npm i -g @oven/bun-linux-x64-baseline` and put its `bin/` on `PATH`) —
-> the AVX2 build can segfault on some hardware.
+## Step 1 — Frontend (React 19 + Vite + Tailwind)
 
-## Step 1 — Frontend (Web UI)
-
-The Web UI sources live in `web/` of this repo (`packages/app`, `packages/ui`,
-`packages/sdk`). They are a *patched* snapshot of the upstream
-[sst/opencode](https://github.com/sst/opencode) monorepo — the UI library and
-SDK are workspace packages, so you must build them inside the upstream
-monorepo:
+The mobile UI is a **self-contained React app** in `app-react/` of this repo.
+No upstream monorepo is required.
 
 ```bash
-# a) Clone upstream and checkout the matching revision
-git clone https://github.com/sst/opencode
-cd opencode
-git checkout 696f41b        # revision this project is based on
-
-# b) Apply this repo's patched sources on top
-cp -r /path/to/opencode-mobile/web/packages/app packages/
-cp -r /path/to/opencode-mobile/web/packages/ui packages/
-cp -r /path/to/opencode-mobile/web/packages/sdk packages/sdk/js  # replaces js package
-
-# c) Install & build
-bun install
-cd packages/app
-bun run build
+cd app-react
+npm install
+npm run build
 # → dist/  (the built Web UI)
 ```
 
 ## Step 2 — Copy the web build into the Android project
 
 ```bash
-cp -r packages/app/dist /path/to/opencode-mobile/dist
+rm -rf dist && cp -r app-react/dist dist
 ```
 
 ## Step 3 — Sync Capacitor
