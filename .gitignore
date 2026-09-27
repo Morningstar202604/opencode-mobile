@@ -1,0 +1,33 @@
+# ---- Dependencies / build artifacts ----
+node_modules/
+web/packages/app/node_modules/
+web/packages/ui/node_modules/
+web/packages/sdk/js/node_modules/
+dist/
+web/packages/app/dist/
+web/packages/ui/dist/
+*.tsbuildinfo
+
+# ---- Android build outputs ----
+android/app/build/
+android/build/
+android/.gradle/
+android/local.properties
+android/.idea/
+*.apk
+*.aab
+
+# ---- Secrets — never commit ----
+keystore/
+.env
+.env.*
+config.json
+*.pem
+*.jks
+
+# ---- Local dev / logs ----
+tools/*.png
+tools/*.log
+tools/sid.txt
+*.log
+.DS_Store

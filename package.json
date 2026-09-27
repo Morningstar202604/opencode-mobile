@@ -1,0 +1,26 @@
+{
+  "name": "opencode-mobile",
+  "version": "0.1.0",
+  "description": "OpenCode 安卓客户端 - 基于 Capacitor 封装 OpenCode Web UI",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync": "capacitor sync android",
+    "open:android": "capacitor open android",
+    "build:apk": "cd android && ./gradlew assembleDebug",
+    "dev": "vite"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/app": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/filesystem": "^7.0.0",
+    "@capacitor/network": "^7.0.0",
+    "@capacitor/preferences": "^7.0.0",
+    "playwright-core": "^1.63.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^7.0.0"
+  }
+}

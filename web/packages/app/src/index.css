@@ -1,0 +1,1040 @@
+@import "@opencode-ai/ui/styles/tailwind";
+@import "@opencode-ai/session-ui/styles";
+@import "@opencode-ai/ui/v2/styles/tailwind.css";
+@import "tw-animate-css";
+
+@font-face {
+  font-family: "JetBrainsMono Nerd Font Mono";
+  src: url("/assets/JetBrainsMonoNerdFontMono-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/assets/Inter.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@media (display-mode: standalone) {
+  /* WebKit excludes safe-area insets from dvh in installed apps. */
+  #root {
+    height: 100vh;
+  }
+}
+
+@layer components {
+  [data-component="getting-started"] {
+    container-type: inline-size;
+    container-name: getting-started;
+  }
+
+  [data-component="dropdown-menu-content"].desktop-app-menu,
+  [data-component="dropdown-menu-sub-content"].desktop-app-menu {
+    min-width: 160px;
+    padding: 2px;
+  }
+
+  [data-component="dropdown-menu-content"].desktop-app-menu {
+    width: 160px;
+  }
+
+  [data-component="dropdown-menu-sub-content"].desktop-app-menu {
+    width: max-content;
+    min-width: 240px;
+    max-width: min(320px, calc(100vw - 24px));
+  }
+
+  [data-component="dropdown-menu-content"].desktop-app-menu [data-slot="dropdown-menu-group-label"] {
+    display: flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 12px;
+    font-size: var(--font-size-x-small);
+    font-weight: var(--font-weight-medium);
+    line-height: 1;
+    color: var(--text-weak);
+  }
+
+  [data-component="dropdown-menu-content"].desktop-app-menu [data-slot="dropdown-menu-item"],
+  [data-component="dropdown-menu-content"].desktop-app-menu [data-slot="dropdown-menu-sub-trigger"],
+  [data-component="dropdown-menu-sub-content"].desktop-app-menu [data-slot="dropdown-menu-item"],
+  [data-component="dropdown-menu-sub-content"].desktop-app-menu [data-slot="dropdown-menu-sub-trigger"] {
+    min-height: 28px;
+    padding: 0 12px;
+    gap: 8px;
+    font-weight: var(--font-weight-regular);
+    line-height: 1;
+  }
+
+  [data-component="dropdown-menu-content"].desktop-app-menu [data-slot="dropdown-menu-item-label"],
+  [data-component="dropdown-menu-sub-content"].desktop-app-menu [data-slot="dropdown-menu-item-label"] {
+    white-space: nowrap;
+  }
+
+  [data-slot="desktop-app-menu-keybind"] {
+    margin-left: auto;
+    color: var(--text-weak);
+    font-size: var(--font-size-x-small);
+    font-weight: var(--font-weight-regular);
+    white-space: nowrap;
+  }
+
+  [data-slot="desktop-app-menu-chevron"] {
+    display: flex;
+    margin-left: auto;
+    color: var(--icon-base);
+  }
+
+  [data-component="getting-started-actions"] {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* gap-3 */
+  }
+
+  [data-component="getting-started-actions"] > [data-component="button"] {
+    width: 100%;
+  }
+
+  @container getting-started (min-width: 17rem) {
+    [data-component="getting-started-actions"] {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    [data-component="getting-started-actions"] > [data-component="button"] {
+      width: auto;
+    }
+  }
+
+  .home-session-group-header::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    background: var(--v2-background-bg-base);
+  }
+
+  .home-session-group-header::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 16px;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      var(--v2-background-bg-base) 0%,
+      color-mix(in srgb, var(--v2-background-bg-base) 92.0456%, transparent) 7.93%,
+      color-mix(in srgb, var(--v2-background-bg-base) 84.9947%, transparent) 14.14%,
+      color-mix(in srgb, var(--v2-background-bg-base) 78.6813%, transparent) 19%,
+      color-mix(in srgb, var(--v2-background-bg-base) 72.9394%, transparent) 22.85%,
+      color-mix(in srgb, var(--v2-background-bg-base) 67.6028%, transparent) 26.05%,
+      color-mix(in srgb, var(--v2-background-bg-base) 62.5055%, transparent) 28.95%,
+      color-mix(in srgb, var(--v2-background-bg-base) 57.4815%, transparent) 31.91%,
+      color-mix(in srgb, var(--v2-background-bg-base) 52.3647%, transparent) 35.27%,
+      color-mix(in srgb, var(--v2-background-bg-base) 46.989%, transparent) 39.4%,
+      color-mix(in srgb, var(--v2-background-bg-base) 41.1884%, transparent) 44.65%,
+      color-mix(in srgb, var(--v2-background-bg-base) 34.7969%, transparent) 51.36%,
+      color-mix(in srgb, var(--v2-background-bg-base) 27.6484%, transparent) 59.9%,
+      color-mix(in srgb, var(--v2-background-bg-base) 19.5767%, transparent) 70.62%,
+      color-mix(in srgb, var(--v2-background-bg-base) 10.416%, transparent) 83.87%,
+      transparent 100%
+    );
+  }
+
+  [data-slot="titlebar-update-loader"] {
+    display: block;
+    flex-shrink: 0;
+    margin: 1px;
+    width: 12px;
+    height: 12px;
+    border-radius: 9999px;
+    border: 2px solid color-mix(in srgb, var(--v2-icon-icon-accent) 30%, transparent);
+    border-top-color: var(--v2-icon-icon-accent);
+    animation: titlebar-update-loader-spin 0.67s linear infinite;
+    transform-origin: 50% 50%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-slot="titlebar-update-loader"] {
+      animation: none;
+    }
+  }
+
+  @keyframes titlebar-update-loader-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes home-projects-fade-top {
+    from {
+      visibility: hidden;
+    }
+    to {
+      visibility: visible;
+    }
+  }
+
+  @keyframes home-projects-fade-bottom {
+    from {
+      visibility: visible;
+    }
+    to {
+      visibility: hidden;
+    }
+  }
+
+  [data-slot="home-projects-scroll"] {
+    timeline-scope: --home-projects-scroll;
+  }
+
+  [data-slot="model-selector-scroll"] {
+    timeline-scope: --model-selector-scroll;
+  }
+
+  [data-slot="manage-models-scroll"] {
+    timeline-scope: --manage-models-scroll;
+  }
+
+  [data-slot="home-projects-scroll"]::before,
+  [data-slot="home-projects-scroll"]::after,
+  [data-slot="model-selector-scroll"]::before,
+  [data-slot="model-selector-scroll"]::after,
+  [data-slot="manage-models-scroll"]::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    height: 16px;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  [data-slot="home-projects-scroll"]::before {
+    top: 0;
+    background: linear-gradient(to bottom, var(--v2-background-bg-base), transparent);
+  }
+
+  [data-slot="model-selector-scroll"]::before {
+    top: 0;
+    height: 12px;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 80%, transparent) 0%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 78.3336%, transparent) 4.7%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 76.4824%, transparent) 8.9%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 74.368%, transparent) 12.8%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 71.9123%, transparent) 16.56%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 69.037%, transparent) 20.37%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 65.664%, transparent) 24.4%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 61.715%, transparent) 28.83%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 57.1117%, transparent) 33.84%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 51.776%, transparent) 39.6%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 45.6296%, transparent) 46.3%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 38.5944%, transparent) 54.1%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 30.592%, transparent) 63.2%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 21.5443%, transparent) 73.76%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 11.373%, transparent) 85.97%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 0%, transparent) 100%
+    );
+  }
+
+  [data-slot="manage-models-scroll"]::before {
+    top: 0;
+    background: linear-gradient(to bottom, var(--v2-background-bg-base), transparent);
+  }
+
+  [data-slot="home-projects-scroll"]::after {
+    bottom: 0;
+    background: linear-gradient(to top, var(--v2-background-bg-base), transparent);
+  }
+
+  [data-slot="model-selector-scroll"]::after {
+    bottom: 0;
+    height: 12px;
+    background: linear-gradient(
+      0deg,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 80%, transparent) 0%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 78.3336%, transparent) 4.7%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 76.4824%, transparent) 8.9%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 74.368%, transparent) 12.8%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 71.9123%, transparent) 16.56%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 69.037%, transparent) 20.37%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 65.664%, transparent) 24.4%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 61.715%, transparent) 28.83%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 57.1117%, transparent) 33.84%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 51.776%, transparent) 39.6%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 45.6296%, transparent) 46.3%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 38.5944%, transparent) 54.1%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 30.592%, transparent) 63.2%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 21.5443%, transparent) 73.76%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 11.373%, transparent) 85.97%,
+      color-mix(in srgb, var(--v2-background-bg-layer-01) 0%, transparent) 100%
+    );
+  }
+
+  @supports (animation-timeline: --home-projects-scroll) and (timeline-scope: --home-projects-scroll) {
+    [data-slot="home-projects-scroll"] .scroll-view__viewport {
+      scroll-timeline: --home-projects-scroll y;
+    }
+
+    [data-slot="home-projects-scroll"]::before {
+      animation: home-projects-fade-top linear both;
+      animation-timeline: --home-projects-scroll;
+      animation-range: 0 0.1px;
+    }
+
+    [data-slot="home-projects-scroll"]::after {
+      animation: home-projects-fade-bottom linear both;
+      animation-timeline: --home-projects-scroll;
+      animation-range: calc(100% - 1.1px) calc(100% - 1px);
+    }
+  }
+
+  @supports (animation-timeline: --model-selector-scroll) and (timeline-scope: --model-selector-scroll) {
+    [data-slot="model-selector-scroll"] .scroll-view__viewport {
+      scroll-timeline: --model-selector-scroll y;
+    }
+
+    [data-slot="model-selector-scroll"]::before {
+      animation: home-projects-fade-top linear both;
+      animation-timeline: --model-selector-scroll;
+      animation-range: 0 0.1px;
+    }
+
+    [data-slot="model-selector-scroll"]::after {
+      animation: home-projects-fade-bottom linear both;
+      animation-timeline: --model-selector-scroll;
+      animation-range: calc(100% - 1.1px) calc(100% - 1px);
+    }
+  }
+
+  @supports (animation-timeline: --manage-models-scroll) and (timeline-scope: --manage-models-scroll) {
+    [data-slot="manage-models-scroll"] .settings-v2-panel {
+      scroll-timeline: --manage-models-scroll y;
+    }
+
+    [data-slot="manage-models-scroll"]::before {
+      animation: home-projects-fade-top linear both;
+      animation-timeline: --manage-models-scroll;
+      animation-range: 0 0.1px;
+    }
+  }
+}
+
+/* ============================================================
+   OpenCode Mobile — 移动端触屏适配（≤768px）
+   由安卓化改造添加：单栏体验、全屏对话框、安全区、触摸目标
+   ============================================================ */
+@media (max-width: 768px) {
+  /* 触摸目标与点击高亮 */
+  button,
+  [role="button"],
+  a,
+  input,
+  select,
+  textarea,
+  [contenteditable="true"] {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* 对话框全屏化：移动端弹层占满屏幕（面板经 portal 渲染，直接命中 role=dialog） */
+  [data-component="dialog-overlay"],
+  [role="dialog"] {
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-width: none !important;
+    max-height: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    inset: 0 !important;
+    transform: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  [data-component="dialog-overlay"] > *,
+  [role="dialog"] > * {
+    height: 100%;
+  }
+
+  /* 输入区：贴合底部并适配手势安全区 */
+  [data-component="dock-shell"],
+  [data-component="dock-prompt"],
+  [data-component="prompt-input"] {
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 8px) !important;
+  }
+
+  /* 桌面端顶栏在手机上压缩高度 */
+  html {
+    font-size: 15px;
+  }
+}
+
+/* ============================================================
+   OpenCode Mobile — 触屏增强 2.0（组件级改造配套）
+   覆盖：顶栏、标签条、输入区、列表触控目标
+   ============================================================ */
+@media (max-width: 767px) {
+  /* 顶栏按钮触控目标 ≥40px */
+  [data-slot="titlebar-v2"] button,
+  [data-slot="titlebar-v2"] [role="button"] {
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  /* 会话标签条：窄屏允许横向滚动、压紧间距 */
+  [data-slot="titlebar-v2"] [data-component="session-tab-popover-trigger"],
+  [data-slot="titlebar-v2"] .tab-strip {
+    max-width: 38vw;
+  }
+  [data-slot="titlebar-v2"] .tab-strip {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* 输入区：模型/模式选择器收窄，让位给消息输入 */
+  [data-component="session-prompt-dock"] [role="combobox"],
+  [data-component="session-prompt-dock"] select,
+  [data-component="prompt-input"] [role="combobox"],
+  [data-component="prompt-input"] select {
+    max-width: 34vw;
+  }
+  [data-component="session-prompt-dock"] button,
+  [data-component="prompt-input"] button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* 列表触控目标：会话/项目/文件条目行高 ≥48px */
+  [data-slot="session-list"] [data-slot="row"],
+  [data-slot="project-list"] [data-slot="row"],
+  [data-component="mobile-drawer-v2"] button {
+    min-height: 48px;
+  }
+
+  /* 消息区文字与头像适配 */
+  [data-component="message-timeline"] {
+    padding-inline: 12px;
+  }
+
+  /* 隐藏纯桌面装饰（hover 展开按钮等），避免误触 */
+  [data-slot="hover-reveal"],
+  [data-component="hover-reveal"] {
+    opacity: 1 !important;
+  }
+}
+
+/* 超窄屏（≤400px）：进一步收窄图标栏间距 */
+@media (max-width: 400px) {
+  .w-16 {
+    width: 3.5rem !important;
+  }
+}
+
+/* ============================================================
+   OpenCode Mobile — 聊天形态改造 3.0（参考主流 AI 工具交互）
+   目标：会话页呈现为"全屏对话流 + 底部胶囊输入框"，
+        去除桌面多标签/工具条视觉，贴合豆包/ChatGPT 手机体验
+   ============================================================ */
+@media (max-width: 767px) {
+  /* 1) 隐藏桌面多标签条——顶栏只留 汉堡+标题+操作 */
+  [data-slot="titlebar-tabs"],
+  [data-slot="titlebar-tabs"] * {
+    display: none !important;
+  }
+
+  /* 2) 消息流：限宽居中，形成"对话栏" */
+  [data-slot="session-turn-message-container"] {
+    margin-inline: auto !important;
+    max-width: 720px !important;
+  }
+
+  /* 用户消息：右侧气泡（主色淡底 + 大圆角） */
+  [data-timeline-row="UserMessage"] [data-slot="session-turn-message-container"] {
+    display: flex !important;
+    justify-content: flex-end !important;
+    padding-inline: 12px !important;
+  }
+  [data-timeline-row="UserMessage"] [data-component="user-message"] {
+    max-width: 88% !important;
+    min-width: 60px !important;
+    border-radius: 20px 20px 6px 20px !important;
+    background: color-mix(in srgb, var(--v2-icon-icon-accent, #4f46e5) 10%, var(--v2-background-bg-base, #fff)) !important;
+    padding: 10px 16px !important;
+    margin-block: 4px !important;
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+    word-break: break-word !important;
+  }
+  /* 用户消息内嵌代码块适配气泡 */
+  [data-timeline-row="UserMessage"] [data-component="user-message"] pre {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    border-radius: 12px !important;
+  }
+
+  /* AI 消息：左侧无气泡（主流风格），限宽对齐 */
+  [data-timeline-row="AssistantMessage"] [data-slot="session-turn-message-container"] {
+    padding-inline: 12px !important;
+  }
+  [data-timeline-row="AssistantMessage"] [data-component="assistant-message"] {
+    max-width: 720px !important;
+    font-size: 15px !important;
+    line-height: 1.65 !important;
+  }
+
+  /* 消息间距 */
+  [data-component="session-turn"] {
+    margin-block: 2px !important;
+  }
+
+  /* 3) 输入区：胶囊输入框 + 大圆发送（豆包/ChatGPT 风格） */
+  form[data-component="prompt-input-v2"] {
+    border-radius: 24px !important;
+    border: 1px solid rgba(127, 127, 127, 0.18) !important;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06) !important;
+  }
+  [data-component="session-prompt-dock"] {
+    padding-inline: 10px !important;
+  }
+  [data-component="prompt-input"][contenteditable] {
+    font-size: 16px !important;
+    line-height: 1.55 !important;
+    padding: 16px 18px 8px !important;
+  }
+  /* 输入占位提示同步字号 */
+  [data-component="prompt-input-v2"] .pointer-events-none.absolute {
+    font-size: 15px !important;
+    padding-inline: 18px !important;
+  }
+  /* 发送按钮：大圆形主色 */
+  [data-action="prompt-submit"] {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    border-radius: 9999px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  /* 工具行（附件/智能体/模型）加高 */
+  [data-component="session-prompt-dock"] .flex.h-11 {
+    height: 48px !important;
+  }
+
+  /* 4) "会话/更改"切换：胶囊化 */
+  [data-component="session-prompt-dock"] ~ [data-component="session-tabs"],
+  [data-slot="session-tabs"] {
+    border-radius: 9999px !important;
+  }
+
+  /* 5) sticky 会话标题行：紧凑 + 底部描边 */
+  .sticky.top-0 {
+    background: var(--v2-background-bg-base, #fff) !important;
+    z-index: 20 !important;
+  }
+}
+
+/* ============================================================
+   OpenCode Mobile — 首页主流 AI 形态（4.0）
+   参考豆包/千问：对话列表页 + 底部新建对话大按钮
+   ============================================================ */
+@media (max-width: 767px) {
+  /* 首页整体铺满（去掉桌面内边距/圆角） */
+  body:has([data-component="home-page-root"]) {
+    background: var(--v2-background-bg-base, #fff) !important;
+  }
+
+  /* 会话分组标题：轻量小字 */
+  .home-session-group-header .home-session-section-label,
+  [class*="home-session-group-header"] {
+    font-size: 13px !important;
+  }
+
+  /* 会话条目：圆角卡片感 + 更大触控行 */
+  [data-slot="home-session-row"],
+  [data-component="home-session-row"] {
+    border-radius: 14px !important;
+    margin-inline: 2px !important;
+    padding-inline: 12px !important;
+  }
+  [data-slot="home-session-row"] [class*="h-12"],
+  [data-component="home-session-row"] [class*="h-12"] {
+    min-height: 52px !important;
+  }
+
+  /* 搜索框：胶囊化 */
+  [data-component="home-session-search"] input,
+  [data-slot="home-session-search"] input {
+    border-radius: 9999px !important;
+  }
+
+  /* 底部新建对话 FAB：主色圆角 + 阴影 */
+  [data-component="mobile-new-session-fab"] button {
+    letter-spacing: 0.01em;
+  }
+}
+
+/* ============================================================
+   OpenCode Mobile — 会话页细节 5.0（对齐主流 AI 应用）
+   1) AI 消息左侧头像  2) 消息容器内边距让位
+   ============================================================ */
+@media (max-width: 767px) {
+  /* AI 消息：左侧圆形头像（绝对定位，不破坏内部布局） */
+  [data-timeline-row="AssistantMessage"] [data-slot="session-turn-message-container"] {
+    position: relative;
+    padding-left: 40px !important;
+    padding-right: 8px !important;
+  }
+  [data-timeline-row="AssistantMessage"] [data-slot="session-turn-message-container"]::before {
+    content: "OC";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 9999px;
+    background: color-mix(in srgb, var(--v2-icon-icon-accent, #4f46e5) 14%, var(--v2-background-bg-base, #fff));
+    color: var(--v2-icon-icon-accent, #4f46e5);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+
+  /* 消息间距：更紧凑（豆包风格） */
+  [data-component="session-turn"] {
+    margin-block: 3px !important;
+  }
+
+  /* AI 消息文本行距微调 */
+  [data-timeline-row="AssistantMessage"] [data-component="assistant-message"] {
+    line-height: 1.7 !important;
+  }
+}
+
+/* ============================================================
+   OpenCode Mobile — 模型选择器底部弹层 5.1（GPT/Claude 风格）
+   手机端：全宽底部 sheet（圆角顶、限高 70vh、safe-area）
+   ============================================================ */
+@media (max-width: 767px) {
+  [data-component="menu-v2-content"]:has([data-slot="model-selector-scroll"]) {
+    position: fixed !important;
+    inset: auto 0 0 0 !important;
+    top: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 70vh !important;
+    height: auto !important;
+    border-radius: 18px 18px 0 0 !important;
+    transform: none !important;
+    margin: 0 !important;
+    padding: 14px 12px max(12px, env(safe-area-inset-bottom)) !important;
+    box-shadow: 0 -10px 36px rgba(15, 23, 42, 0.14) !important;
+  }
+
+  /* 半透明遮罩（sheet 背景压暗，主流 App 手势） */
+  [data-component="menu-v2-content"]:has([data-slot="model-selector-scroll"])::backdrop,
+  [data-kobalte-popover-content]::before {
+    display: none !important;
+  }
+}
+
+/* ============================================================
+   OpenCode Mobile — 会话页顶栏 6.0 + 深色模式适配（v0.9 大胆重构）
+   手机端：返回按钮 + 标题居中放大 + 右侧按钮紧凑；
+   深色：输入框/sheet/底栏阴影与描边切换主题变量
+   ============================================================ */
+@media (max-width: 767px) {
+  /* 1) 标题区：返回按钮 + 标题居中（豆包式顶栏） */
+  [data-session-title] {
+    padding-top: max(6px, env(safe-area-inset-top)) !important;
+    padding-inline: 6px 12px !important;
+  }
+  [data-session-title] .h-12 {
+    height: 44px !important;
+  }
+  /* 标题放大居中：flex 平衡（返回占位 + 标题 + 右侧按钮） */
+  [data-session-title] > div > div:first-child {
+    justify-content: center !important;
+    gap: 2px !important;
+  }
+  [data-session-title] [data-slot="session-title-child"] {
+    font-size: 15px !important;
+    letter-spacing: -0.2px !important;
+    text-align: center !important;
+  }
+  [data-session-title] [data-slot="session-title-parent"] {
+    font-size: 12px !important;
+  }
+  /* 返回按钮 */
+  [data-slot="session-back"] {
+    margin-right: 4px !important;
+    font-size: 0 !important;
+  }
+  [data-slot="session-back"] svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  /* 右侧按钮组：更紧凑、弱化上下文用量 */
+  [data-session-title] > div > div:last-child {
+    gap: 2px !important;
+  }
+  [data-session-title] [aria-label="查看上下文用量"],
+  [data-session-title] [aria-label="查看上下文用量"] * {
+    display: none !important;
+  }
+
+  /* 2) 输入区深色适配：描边/阴影跟随主题 */
+  form[data-component="prompt-input-v2"] {
+    border-color: color-mix(in srgb, var(--v2-icon-icon-muted, #98a2b3) 26%, transparent) !important;
+    box-shadow: 0 2px 14px color-mix(in srgb, var(--v2-icon-icon-base, #1d2939) 10%, transparent) !important;
+  }
+
+  /* 3) 底部主导航深色适配 */
+  [data-component="mobile-tab-bar"] {
+    background: color-mix(in srgb, var(--v2-background-bg-base, #fff) 94%, transparent) !important;
+    border-top: 1px solid color-mix(in srgb, var(--v2-icon-icon-muted, #98a2b3) 20%, transparent) !important;
+  }
+  /* 底部导航栏模糊毛玻璃（豆包/主流 App 效果） */
+  [data-component="mobile-tab-bar"] {
+    backdrop-filter: blur(18px) saturate(1.4) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(1.4) !important;
+  }
+
+  /* 4) 模型选择器 sheet 深色适配 */
+  [data-component="menu-v2-content"]:has([data-slot="model-selector-scroll"]) {
+    box-shadow: 0 -10px 36px color-mix(in srgb, var(--v2-icon-icon-base, #1d2939) 18%, transparent) !important;
+  }
+
+  /* 5) 抽屉深色适配 */
+  [data-component="mobile-drawer-v2"] {
+    border-right: 1px solid color-mix(in srgb, var(--v2-icon-icon-muted, #98a2b3) 18%, transparent) !important;
+  }
+
+  /* 6) 消息气泡深色微调：用户气泡淡底不刺眼 */
+  [data-timeline-row="UserMessage"] [data-component="user-message"] {
+    background: color-mix(in srgb, var(--v2-icon-icon-accent, #4f46e5) 12%, var(--v2-background-bg-layer-02, #fff)) !important;
+  }
+
+  /* 7) AI 头像深色微调 */
+  [data-timeline-row="AssistantMessage"] [data-slot="session-turn-message-container"]::before {
+    background: color-mix(in srgb, var(--v2-icon-icon-accent, #4f46e5) 18%, var(--v2-background-bg-layer-02, #fff)) !important;
+    color: var(--v2-text-text-accent, #4f46e5) !important;
+  }
+}
+
+/* ============================================================
+   OpenCode Mobile — 设置全屏化 + 首页输入框 7.0（v0.10 大胆重构）
+   手机端：设置对话框变全屏页（顶部横向 tab + 内容区占满）；
+   首页：输入非空才显示发送按钮（豆包行为）
+   ============================================================ */
+@media (max-width: 767px) {
+  /* 1) 设置对话框全屏化：inset 0、100% 宽高、无圆角（豆包设置页形态） */
+  .settings-v2-dialog[role="dialog"] {
+    flex: 0 0 auto !important;
+    position: fixed !important;
+    inset: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding-top: max(10px, env(safe-area-inset-top)) !important;
+    padding-bottom: env(safe-area-inset-bottom) !important;
+  }
+  /* 1b) 设置内部：上下布局（顶部 tab 条 + 内容占满） */
+  [data-component="tabs-v2"][data-variant="settings"][data-orientation="vertical"] {
+    flex-direction: column !important;
+    overflow: hidden !important;
+  }
+  [data-component="tabs-v2"][data-variant="settings"][data-orientation="vertical"] [data-slot="tabs-v2-list"] {
+    flex-direction: row !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    padding: 6px 10px !important;
+    gap: 4px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    border-inline-end: none !important;
+    border-bottom: 1px solid var(--v2-border-border-base) !important;
+  }
+  [data-component="tabs-v2"][data-variant="settings"][data-orientation="vertical"] [data-slot="tabs-v2-section-title"] {
+    display: none !important;
+  }
+  [data-component="tabs-v2"][data-variant="settings"][data-orientation="vertical"] [data-slot="tabs-v2-trigger-wrapper"] {
+    width: auto !important;
+    height: 34px !important;
+    flex-shrink: 0 !important;
+    border-radius: 8px !important;
+  }
+  [data-component="tabs-v2"][data-variant="settings"][data-orientation="vertical"] [data-slot="tabs-v2-trigger"] {
+    justify-content: center !important;
+    padding: 0 12px !important;
+  }
+  [data-component="tabs-v2"][data-variant="settings"][data-orientation="vertical"] [data-slot="tabs-v2-content"] {
+    flex: 1 !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+  }
+
+  /* 2) 首页输入框：输入非空才显示发送按钮（豆包行为） */
+  [data-slot="home-quick-prompt"] [data-component="home-quick-input"]:placeholder-shown
+    ~ [data-component="home-quick-submit"] {
+    display: none !important;
+  }
+  [data-slot="home-quick-prompt"] [data-component="home-quick-input"]:not(:placeholder-shown)
+    ~ [data-component="home-quick-submit"] {
+    display: flex !important;
+  }
+}
+
+/* ============================================================
+   OpenCode Mobile — 设置主页列表式（豆包形态）8.0（v0.11）
+   手机端：设置主页 = 大行列表（模型/服务器/提供商/通用），
+   子页返回按钮；桌面端不启用（保持原生布局）
+   ============================================================ */
+@media (max-width: 767px) {
+  /* 设置主页列表行（豆包大行形态） */
+  .settings-home-panel .settings-home-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    min-height: 60px !important;
+    padding: 8px 12px !important;
+    border-radius: 14px !important;
+    background: var(--v2-background-bg-layer-01, #f4f4f5) !important;
+    border: none !important;
+    cursor: pointer !important;
+    text-align: left !important;
+    transition: background 0.15s ease !important;
+  }
+  .settings-home-panel .settings-home-row:active {
+    background: var(--v2-background-bg-layer-02, #e9e9ec) !important;
+  }
+  .settings-home-panel .settings-home-icon {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 36px !important;
+    height: 36px !important;
+    flex-shrink: 0 !important;
+    border-radius: 10px !important;
+    color: var(--v2-icon-icon-accent, #4f46e5) !important;
+    background: color-mix(in srgb, var(--v2-icon-icon-accent, #4f46e5) 12%, var(--v2-background-bg-layer-02, #fff)) !important;
+  }
+  .settings-home-panel .settings-home-row > svg:last-child {
+    color: var(--v2-icon-icon-faint, #9ca3af) !important;
+  }
+}
+
+/* 手机端设置页：隐藏左侧 tab 条（主页列表 + 返回按钮已足够导航），内容占满 */
+@media (max-width: 767px) {
+  [data-component="tabs-v2"][data-variant="settings"][data-orientation="vertical"] [data-slot="tabs-v2-list"] {
+    display: none !important;
+  }
+  [data-component="tabs-v2"][data-variant="settings"][data-orientation="vertical"] [data-slot="tabs-v2-content"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* 手机端全屏设置页：背景不透明（盖住首页内容） */
+@media (max-width: 767px) {
+  .settings-v2-dialog[role="dialog"] {
+    background: var(--v2-background-bg-layer-00, #fbfbfc) !important;
+  }
+}
+
+/* ============================================================
+   OpenCode Mobile — 完全自定义模型管理 9.0（v0.12）
+   手机端：模型页 = 我的模型列表 + 添加模型表单（ChatGPT/Codex 风格）
+   ============================================================ */
+@media (max-width: 767px) {
+  .settings-models-add {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 8px 14px !important;
+    border-radius: 999px !important;
+    border: none !important;
+    background: var(--v2-accent-accent, #4f46e5) !important;
+    color: #fff !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+  }
+  .settings-models-add:active { opacity: 0.85 !important; }
+
+  .settings-model-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+    padding: 10px 12px !important;
+    border-radius: 14px !important;
+    background: var(--v2-background-bg-layer-01, #f4f4f5) !important;
+  }
+  .settings-model-avatar {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 38px !important;
+    height: 38px !important;
+    flex-shrink: 0 !important;
+    border-radius: 50% !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+    background: linear-gradient(135deg, var(--v2-accent-accent, #4f46e5), #06b6d4) !important;
+  }
+  .settings-model-remove {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 32px !important;
+    height: 32px !important;
+    flex-shrink: 0 !important;
+    border-radius: 50% !important;
+    border: none !important;
+    background: transparent !important;
+    color: var(--v2-icon-icon-faint, #9ca3af) !important;
+    cursor: pointer !important;
+  }
+  .settings-model-remove:active {
+    background: color-mix(in srgb, var(--v2-danger-danger, #ef4444) 10%, transparent) !important;
+    color: var(--v2-danger-danger, #ef4444) !important;
+  }
+
+  .settings-model-sheet {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    margin-top: 12px !important;
+    padding: 16px 14px !important;
+    border-radius: 16px !important;
+    background: var(--v2-background-bg-layer-01, #f4f4f5) !important;
+    border: 1px solid var(--v2-border-border-02, #ececef) !important;
+  }
+  .settings-model-sheet-title {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: var(--v2-text-text-base, #1f2329) !important;
+  }
+  .settings-model-sheet-sub {
+    font-size: 12px !important;
+    color: var(--v2-text-text-faint, #8a919f) !important;
+    margin-bottom: 2px !important;
+  }
+}
+
+/* ============================================================
+   OpenCode Mobile — 服务器页卡片化 9.1（v0.12）
+   ============================================================ */
+@media (max-width: 767px) {
+  .settings-v2-servers-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    padding: 12px !important;
+    border-radius: 14px !important;
+    background: var(--v2-background-bg-layer-01, #f4f4f5) !important;
+  }
+  .settings-v2-servers-lead {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-width: 0 !important;
+  }
+  .settings-v2-servers-copy {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    min-width: 0 !important;
+  }
+  .settings-v2-servers-name {
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    color: var(--v2-text-text-base, #1f2329) !important;
+  }
+  .settings-v2-servers-url {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-size: 12px !important;
+    color: var(--v2-text-text-faint, #8a919f) !important;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+  }
+  .settings-v2-servers-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-shrink: 0 !important;
+  }
+}
+
+/* ============================================================
+   OpenCode Mobile — 通用页列表化打磨 9.2（v0.12）
+   手机端：设置项分组行圆角卡片化
+   ============================================================ */
+@media (max-width: 767px) {
+  .settings-v2-panel .settings-v2-section {
+    border-radius: 14px !important;
+    background: var(--v2-background-bg-layer-01, #f4f4f5) !important;
+    padding: 4px 12px !important;
+    margin-bottom: 10px !important;
+  }
+  .settings-v2-panel .settings-v2-section-title {
+    font-size: 12px !important;
+    color: var(--v2-text-text-faint, #8a919f) !important;
+    padding: 10px 2px 2px !important;
+  }
+}
+
+/* ============================================================
+   OpenCode Mobile — 测试连接 9.3（v0.13）
+   ============================================================ */
+@media (max-width: 767px) {
+  .settings-model-test-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-wrap: wrap !important;
+  }
+  .settings-model-test-msg {
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+    word-break: break-all !important;
+  }
+  .settings-model-test-msg[data-state="ok"] {
+    color: var(--v2-success-success, #16a34a) !important;
+  }
+  .settings-model-test-msg[data-state="fail"] {
+    color: var(--v2-danger-danger, #dc2626) !important;
+  }
+  .settings-model-test-msg[data-state="testing"] {
+    color: var(--v2-text-text-faint, #8a919f) !important;
+  }
+}
