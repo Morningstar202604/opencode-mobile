@@ -51,9 +51,12 @@ OpenCode Mobile takes the same engine and **redesigns it for the phone**:
 
 ### Install the APK
 
-Grab the latest release APK from the [Releases](../../releases) page (or from
-the build instructions below) and install it on your Android device
-(`Settings → Install unknown apps` → allow this file).
+Download the latest release APK from the
+[**GitHub Releases**](https://github.com/X33834/opencode-mobile/releases/latest)
+page (or follow the build instructions below) and install it on your Android
+device (`Settings → Install unknown apps` → allow this file).
+Mirrors: [Gitee](https://gitee.com/badhope/opencode-mobile) ·
+[GitCode](https://gitcode.com/badhope/opencode-mobile).
 
 ### First run
 
