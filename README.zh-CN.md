@@ -3,7 +3,7 @@
 [English](README.md) · **中文**
 
 <p align="center">
-  <img src="docs/banner.png" alt="OpenCode Mobile" width="100%" />
+  <img src="https://raw.githubusercontent.com/X33834/opencode-mobile/main/docs/banner.png" alt="OpenCode Mobile" width="100%" />
 </p>
 
 # OpenCode Mobile
@@ -33,7 +33,7 @@ OpenCode Mobile 保留完整引擎能力，**为手机重新设计了一切**：
 
 | 首页 | 会话页 | 设置主页 | 模型页 | 测试连接 |
 | --- | --- | --- | --- | --- |
-| <img src="docs/screenshots/home-v4.png" width="140"/> | <img src="docs/screenshots/session-v5.png" width="140"/> | <img src="docs/screenshots/v011-settings-home.png" width="140"/> | <img src="docs/screenshots/v012-models.png" width="140"/> | <img src="docs/screenshots/v013-test-conn.png" width="140"/> |
+| <img src="https://raw.githubusercontent.com/X33834/opencode-mobile/main/docs/screenshots/home-v4.png" width="140"/> | <img src="https://raw.githubusercontent.com/X33834/opencode-mobile/main/docs/screenshots/session-v5.png" width="140"/> | <img src="https://raw.githubusercontent.com/X33834/opencode-mobile/main/docs/screenshots/v011-settings-home.png" width="140"/> | <img src="https://raw.githubusercontent.com/X33834/opencode-mobile/main/docs/screenshots/v012-models.png" width="140"/> | <img src="https://raw.githubusercontent.com/X33834/opencode-mobile/main/docs/screenshots/v013-test-conn.png" width="140"/> |
 
 ## 快速上手
 
